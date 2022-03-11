@@ -30,7 +30,16 @@ add_subdirectory(${EXTERN_IMGUI})
 set(DEPEND ${DEPEND} imgui)
 
 set(FILES
+	src/opengl/shader.cpp
+	src/opengl/program.cpp
+	src/opengl/vertex_array.cpp
+
+	src/core/chunk.cpp
+	
 	src/graphics/window.cpp
+	src/graphics/camera.cpp
+	src/graphics/material.cpp
+	src/graphics/renderable.cpp
 	
 	src/main.cpp
 )
