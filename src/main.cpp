@@ -11,11 +11,12 @@
 
 int main(int argc, char* argv[]) {
 	try {
-		Window window("Infinite Generator", 192*5, 108*5);
-		Camera main_camera(glm::vec3(-35.0f, 50.0f, -35.0f), glm::vec3(10.0f, 10.0f, 10.0f));
+		Graphics::Window window("Infinite Generator", 192*5, 108*5);
+		Graphics::Camera main_camera(glm::vec3(-35.0f, 50.0f, -35.0f),
+			glm::vec3(10.0f, 10.0f, 10.0f));
 
 		Chunk<32> chunk(0, 0, 0);
-		for(unsigned int i = 1; i < 31; i++) {
+		for(unsigned int i = 0; i < 32; i++) {
 			chunk.set_block(i, 0, 0, 1);
 			chunk.set_block(0, i, 0, 1);
 			chunk.set_block(0, 0, i, 1);

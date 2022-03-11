@@ -12,7 +12,7 @@ union ChunkMaskCell {
 
 template<unsigned int T>
 Chunk<T>::Chunk(int x, int y, int z) : x(x), y(y), z(z) {
-	this->material = std::make_shared<Material>("chunk_material");
+	this->material = std::make_shared<Graphics::Material>("chunk_material");
 
 	for(unsigned int z = 0; z < T; z++) {
 		for(unsigned int y = 0; y < T; y++) {

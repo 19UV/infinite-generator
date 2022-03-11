@@ -5,7 +5,7 @@
 #include "graphics/renderable.hpp"
 
 template<unsigned int T>
-class Chunk : public Renderable {
+class Chunk : public Graphics::Renderable {
 	public:
 		Chunk(int x, int y, int z);
 
