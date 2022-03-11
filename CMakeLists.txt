@@ -40,6 +40,8 @@ set(FILES
 	src/graphics/camera.cpp
 	src/graphics/material.cpp
 	src/graphics/renderable.cpp
+
+	src/xraw_parser.cpp
 	
 	src/main.cpp
 )

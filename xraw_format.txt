@@ -1,0 +1,34 @@
+This is the .xraw file format as specified by Ephtracy in his tweet:
+https://twitter.com/ephtracy/status/653721698328551424/photo/1
+I'm using xraw because vox is not in any way documented well
+
+        | START OF HEADER
+--------------------------------------------------------------------------------
+# bytes | Content                 | Value  | Description
+4       | magic number            | "XRAW" | 'X' is stored first
+1       | color channel data type | 0      | unsigned integer
+                                  | 1      | signed integer
+                                  | 2      | float
+1       | num of color channels   | 4      | RGBA, R is stored first
+                                  | 3      | RGB
+								  | 2      | RG
+								  | 1      | R
+1       | bits per channel        | 8      |
+                                  | 16     |
+								  | 32     |
+1       | bits per index          | 8      | 256 colors : 0 for empty voxel
+                                  | 16     | 32768 colors : ~0 for empty voxel
+								  | 0      | no palette
+4       | width x                 | address = x + y * width + z * (width * height)
+4       | height y
+4       | depth z
+4       | num of palette colors   | 256, 32768
+--------------------------------------------------------------------------------
+        | END OF HEADER
+--------------------------------------------------------------------------------
+#V      | voxel buffer            | voxels if no palette
+                                  | indices else
+#P      | palette buffer
+--------------------------------------------------------------------------------
+        | END OF FILE
+--------------------------------------------------------------------------------
