@@ -4,11 +4,11 @@
 
 static int _window_count = 0;
 
-/*
+// TODO: Add Mouse Controls
 static void Window_cursor_position_callback(GLFWwindow* window, double x, double y) {
 	Window* _this = (Window*)glfwGetWindowUserPointer(window);
-	
-	// TODO: Have Mouse Controls
+
+	/* ... */
 }
 
 static void Window_cursor_callback(GLFWwindow* window, int button, int action, int mods) {
@@ -18,13 +18,13 @@ static void Window_cursor_callback(GLFWwindow* window, int button, int action, i
 
 	Window* _this = (Window*)glfwGetWindowUserPointer(window);
 
-	// TODO: Have Mouse Controls
-
 	switch(action) {
 		case GLFW_PRESS:
+			/* ... */
 			break;
 		
 		case GLFW_RELEASE:
+			/* ... */
 			break;
 		
 		default:
@@ -32,26 +32,33 @@ static void Window_cursor_callback(GLFWwindow* window, int button, int action, i
 	}
 }
 
+// TODO: Handle Resizing
 static void Window_size_callback(GLFWwindow* window, int width, int height) {
 	Window* _this = (Window*)glfwGetWindowUserPointer(window);
 
-	// TODO: Handle Resizing
+	// NOTE: Adding this feature will mean that the previous height and
+	// width code will not work. Upon adding, ensure that that code is updated.
+
+	// Also, be sure to enable window resizing in the window hints.
+
+	/* ... */
 }
 
+// TODO: Add Correct Error Callback; Use Exception?
 static void Window_error_callback(int code, const char* description) {
-	std::cerr << "[ERROR] GLFW Error " << code << ": " << description << std::endl;
+	/* ... */
 }
-*/
 
-Window::Window(std::string title, unsigned int width, unsigned int height) {
+Window::Window(std::string title, unsigned int width, unsigned int height) :
+	width(width), height(height) {
+	
 	if(_window_count == 0 && !glfwInit()) {
 		throw std::runtime_error("Failed to Initialize GLFW");
 	}
 	_window_count++;
 
 	glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-	// TODO: Handle Resizing
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // TODO: Handle Resizing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
@@ -61,18 +68,23 @@ Window::Window(std::string title, unsigned int width, unsigned int height) {
 	}
 
 	// TODO: Have it constantly ensure that its handling its own window
+	// to allow for multi-window views. Although that will likely never be
+	// added.
 	glfwMakeContextCurrent(this->handle);
 
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		throw std::runtime_error("Failed to Initialize GLAD");
 	}
 
-	std::cout << "------------------------------------------------------------------" << "\n";
-	std::cout << "OpenGL Version:       " << glGetString(GL_VERSION)                  << "\n";
-	std::cout << "GLSL Version:         " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
-	std::cout << "OpenGL Driver Vendor: " << glGetString(GL_VENDOR)                   << "\n";
-	std::cout << "OpenGL Renderer:      " << glGetString(GL_RENDERER)                 << "\n";
-	std::cout << "------------------------------------------------------------------" << "\n";
+	if(_window_count == 1) {
+		std::cout << "\n";
+		std::cout << "--------------------------- OPENGL DATA ---------------------------" << "\n";
+		std::cout << "OpenGL Version:       " << glGetString(GL_VERSION)                   << "\n";
+		std::cout << "GLSL Version:         " << glGetString(GL_SHADING_LANGUAGE_VERSION)  << "\n";
+		std::cout << "OpenGL Driver Vendor: " << glGetString(GL_VENDOR)                    << "\n";
+		std::cout << "OpenGL Renderer:      " << glGetString(GL_RENDERER)                  << "\n";
+		std::cout << "-------------------------------------------------------------------" << "\n";
+	}
 
 	glfwSetWindowUserPointer(this->handle, this);
 	
@@ -84,9 +96,12 @@ Window::Window(std::string title, unsigned int width, unsigned int height) {
 	*/
 
 	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 }
 
 Window::~Window() {
+	glfwSetWindowUserPointer(this->handle, NULL);
+
 	if(this->handle != nullptr) {
 		glfwDestroyWindow(this->handle);
 	}
@@ -101,6 +116,18 @@ bool Window::should_close() {
 	return glfwWindowShouldClose(this->handle);
 }
 
+void Window::bind() {
+	glfwMakeContextCurrent(this->handle);
+}
+
 GLFWwindow* Window::get_handle() {
 	return this->handle;
+}
+
+unsigned int Window::get_width() {
+	return this->width;
+}
+
+unsigned int Window::get_height() {
+	return this->height;
 }

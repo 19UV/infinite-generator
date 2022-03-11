@@ -13,9 +13,13 @@ class Window {
 		~Window();
 
 		bool should_close();
+		void bind();
 
 		GLFWwindow* get_handle();
+		unsigned int get_width();
+		unsigned int get_height();
 	
 	private:
 		GLFWwindow* handle = nullptr;
+		unsigned int width, height;
 };
