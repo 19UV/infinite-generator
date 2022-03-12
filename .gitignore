@@ -1,0 +1,8 @@
+# VSCode
+.vscode/**
+# VIM
+**/*~
+
+build/**
+
+imgui.ini
