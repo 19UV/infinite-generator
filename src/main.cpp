@@ -14,51 +14,28 @@
 int main(int argc, char* argv[]) {
 	try {
 		Graphics::Window window("Infinite Generator", 192*5, 108*5);
-		Graphics::Camera main_camera(glm::vec3(-35.0f, 50.0f, -35.0f),
-			glm::vec3(10.0f, 10.0f, 10.0f));
+		Graphics::Camera main_camera(glm::vec3(-10.0f, 15.0f, -15.0f),
+			glm::vec3(4.5f, 9.0f, 4.5f));
 		
-		Voxel::VoxelModel model = Voxel::VoxelModel::from_file("./examples/8_corners.xraw");
-		std::cout << model.X << " " << model.Y << " " << model.Z << std::endl;
+		Voxel::VoxelModel model = Voxel::VoxelModel::from_file("./examples/chr_knight.xraw");
 
-		Chunk<9> chunk(0, 0, 0);
+		Chunk<21> chunk(0, 0, 0);
 
+		// Import the model loaded from a .raw file into chunk.
+		// Should probably check and be sure that they're the same size.
 		unsigned int i = 0;
 		for(unsigned int z = 0; z < model.Z; z++) {
 			for(unsigned int y = 0; y < model.Y; y++) {
 				for(unsigned int x = 0; x < model.X; x++) {
 					if(model.voxels[i] != 0) {
-						chunk.set_block(x, y, z, model.voxels[i]);
+						chunk.set_block(x, z, y, model.voxels[i]);
 					}
-					// std::cout << ((model.voxels[i] == 0) ? '.' : 'X');
 
 					i++;
 				}
-				// std::cout << "\n";
 			}
-			// std::cout << "\n";
 		}
 
-		/*
-		Chunk<32> chunk(0, 0, 0);
-		for(unsigned int i = 0; i < 32; i++) {
-			chunk.set_block(i, 0, 0, 1);
-			chunk.set_block(0, i, 0, 1);
-			chunk.set_block(0, 0, i, 1);
-
-			chunk.set_block(31, i, 0, 1);
-			chunk.set_block(31, 0, i, 1);
-
-			chunk.set_block(i, 31, 0, 1);
-			chunk.set_block(0, 31, i, 1);
-
-			chunk.set_block(i, 0, 31, 1);
-			chunk.set_block(0, i, 31, 1);
-
-			chunk.set_block(i, 31, 31, 1);
-			chunk.set_block(31, i, 31, 1);
-			chunk.set_block(31, 31, i, 1);
-		}
-		*/
 		chunk.build_mesh(model.materials);
 
 		glm::mat4& view_matrix = main_camera.get_view_matrix(),

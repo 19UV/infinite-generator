@@ -25,4 +25,5 @@ class Chunk : public Graphics::Renderable {
 
 // Because MSVC doesn't handle linking templates well
 template class Chunk<32>;
+template class Chunk<21>;
 template class Chunk<9>;
