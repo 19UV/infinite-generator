@@ -24,7 +24,7 @@ Chunk<T>::Chunk(int x, int y, int z) : x(x), y(y), z(z) {
 }
 
 template<unsigned int T>
-void Chunk<T>::build_mesh() {
+void Chunk<T>::build_mesh(std::array<Voxel::Material, 256>& materials) {
 	ChunkMaskCell cell;
 	uint16_t chunk_mask[T][T][T];
 
@@ -96,6 +96,11 @@ void Chunk<T>::build_mesh() {
 					float dx = (float)(this->x * T + x);
 
 					cell.res = chunk_mask[z][y][x];
+					
+					Voxel::Material material = materials[this->blocks[z][y][x]];
+					vert.r = material.r;
+					vert.g = material.g;
+					vert.b = material.b;
 
 					for(unsigned int i = 0; i < 6; i++) {
 						if((cell.bytes.mask >> i) & 1) {
@@ -104,10 +109,6 @@ void Chunk<T>::build_mesh() {
 								vert.x = dx + lookup[j];
 								vert.y = dy + lookup[j + 4];
 								vert.z = dz + lookup[j + 8];
-
-								vert.r = 1.0f;
-								vert.g = 0.0f;
-								vert.b = 0.0f;
 
 								*(vertex_write++) = vert;
 							}
