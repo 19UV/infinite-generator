@@ -26,4 +26,4 @@ build\Debug\Infinite_Generator.exe
  * GLAD [[Github](https://github.com/Dav1dde/glad)]
  * GLFW [[Github](https://github.com/glfw/glfw)] [[Website](https://www.glfw.org/)]
  * GLM [[Github](https://github.com/g-truc/glm)]
- * Dear ImGui (not used yet) [[Github](https://github.com/ocornut/imgui)]
+ * Dear ImGui [[Github](https://github.com/ocornut/imgui)]
