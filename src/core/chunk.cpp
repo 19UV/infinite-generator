@@ -79,6 +79,15 @@ void Chunk<T>::build_mesh(std::array<Voxel::Material, 256>& materials) {
 		{ 0,1,0,1, 1,1,0,0, 0,0,0,0 }, // -Z: 0,1,2,3
 	};
 
+	static float face_normals[6][3] = {
+		{  1,  0,  0 }, // +X
+		{ -1,  0,  0 }, // -X
+		{  0,  1,  0 }, // +Y
+		{  0, -1,  0 }, // -Y
+		{  0,  0,  1 }, // +Z
+		{  0,  0, -1 }, // -Z
+	};
+
 	Vertex vert;
 	vert.r = 1.0f;
 	vert.g = 0.0f;
@@ -96,14 +105,19 @@ void Chunk<T>::build_mesh(std::array<Voxel::Material, 256>& materials) {
 					float dx = (float)(this->x * T + x);
 
 					cell.res = chunk_mask[z][y][x];
-					
-					Voxel::Material material = materials[this->blocks[z][y][x]];
+
+					Voxel::Material& material = materials[this->blocks[z][y][x]];
 					vert.r = material.r;
 					vert.g = material.g;
 					vert.b = material.b;
 
 					for(unsigned int i = 0; i < 6; i++) {
 						if((cell.bytes.mask >> i) & 1) {
+							const float* normals = face_normals[i];
+							vert.nx = normals[0];
+							vert.ny = normals[1];
+							vert.nz = normals[2];
+
 							float* lookup = edge_vertices[i];
 							for(unsigned int j = 0; j < 4; j++) {
 								vert.x = dx + lookup[j];
