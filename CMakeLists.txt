@@ -30,6 +30,10 @@ add_subdirectory(${EXTERN_IMGUI})
 set(DEPEND ${DEPEND} imgui)
 
 set(FILES
+	# These aren't nessessary, but just incase ImGui changes its CMakeLists.txt
+	${EXTERN_IMGUI}/imgui/backends/imgui_impl_opengl3.cpp
+	${EXTERN_IMGUI}/imgui/backends/imgui_impl_glfw.cpp
+
 	src/opengl/shader.cpp
 	src/opengl/program.cpp
 	src/opengl/vertex_array.cpp
@@ -40,6 +44,7 @@ set(FILES
 	src/graphics/camera.cpp
 	src/graphics/material.cpp
 	src/graphics/renderable.cpp
+	src/graphics/imgui_layer.cpp
 
 	src/xraw_parser.cpp
 	

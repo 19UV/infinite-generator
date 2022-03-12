@@ -6,6 +6,7 @@
 #include "graphics/window.hpp"
 #include "graphics/camera.hpp"
 #include "graphics/material.hpp"
+#include "graphics/imgui_layer.hpp"
 
 #include "core/chunk.hpp"
 
@@ -14,6 +15,7 @@
 int main(int argc, char* argv[]) {
 	try {
 		Graphics::Window window("Infinite Generator", 192*5, 108*5);
+		Graphics::ImguiLayer imgui(window);
 		Graphics::Camera main_camera(glm::vec3(-10.0f, 15.0f, -15.0f),
 			glm::vec3(4.5f, 9.0f, 4.5f));
 		
@@ -53,6 +55,8 @@ int main(int argc, char* argv[]) {
 				1, GL_FALSE, (const GLfloat*)&projection_matrix[0][0]);
 
 			glDrawElements(GL_TRIANGLES, chunk.get_indices_buffer_size() * 3, GL_UNSIGNED_INT, NULL);
+
+			imgui.render();
 
 			glfwSwapBuffers(window.get_handle());
 			glfwPollEvents();
