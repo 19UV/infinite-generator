@@ -8,7 +8,7 @@
 
 namespace Voxel {
 	struct Material {
-		uint8_t r, g, b, a;
+		float r, g, b, a;
 
 		Material() = default;
 		Material(uint8_t r, uint8_t g, uint8_t b);
